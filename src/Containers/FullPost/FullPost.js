@@ -1,6 +1,6 @@
 import React from 'react';
 import './FullPost.css'
-
+import {Route} from 'react-router-dom'
 class FullPost extends React.Component {
     constructor(props) {
         super(props);

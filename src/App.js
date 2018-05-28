@@ -3,10 +3,14 @@ import React, {
 } from 'react';
 import './App.css';
 import Blog from './Containers/Blog';
+import {BrowserRouter} from 'react-router-dom'
 
 class App extends Component {
   render() {
-    return <Blog />
+    return (
+    <BrowserRouter>
+      <Blog />
+    </BrowserRouter>)
   }
 }
 

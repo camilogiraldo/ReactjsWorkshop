@@ -1,8 +1,8 @@
 import React, { Component} from 'react';
 import './Blog.css'
 import Posts from './Posts/Posts';
-import FullPost from './FullPost/FullPost';
 import NewPost from './NewPost/NewPost';
+import {NavLink, Switch, Route} from 'react-router-dom'
 
 class Blog extends Component {
     constructor(props) {
@@ -15,13 +15,14 @@ class Blog extends Component {
             <div className="Blog">
                 <nav>
                     <ul>
-                        <li>Posts</li>
-                        <li>New Post</li>
+                        <li><NavLink to="/posts">Posts</NavLink></li>
+                        <li><NavLink to="/new-post">New Post</NavLink></li>
                     </ul>
                 </nav>
-                <Posts />
-                <FullPost />
-                <NewPost />
+                <Switch>
+                    <Route path="/posts" component={Posts} />
+                    <Route path="/new-post" component={NewPost} />
+                </Switch>
             </div>
         );
     }
