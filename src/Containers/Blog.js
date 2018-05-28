@@ -2,6 +2,7 @@ import React, { Component} from 'react';
 import './Blog.css'
 import Posts from './Posts/Posts';
 import FullPost from './FullPost/FullPost';
+import NewPost from './NewPost/NewPost';
 
 class Blog extends Component {
     constructor(props) {
@@ -20,6 +21,7 @@ class Blog extends Component {
                 </nav>
                 <Posts />
                 <FullPost />
+                <NewPost />
             </div>
         );
     }
