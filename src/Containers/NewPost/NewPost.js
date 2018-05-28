@@ -19,6 +19,9 @@ class NewPost extends React.Component {
                 <textarea rows="4"/>
                 <label>Author</label>
                 <span>{this.state.author}</span>
+                <br/>
+                <br/>
+                <button>Submit</button>
             </div>
         );
     }

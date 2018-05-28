@@ -1,10 +1,10 @@
 import React from 'react';
 import './Post.css';
 
-const post = () => {
+const post = (props) => {
     return (
-        <article className="Post">
-            <h1>Post title</h1>
+        <article className="Post" onClick={props.clicked}>
+            <h1>{props.title}</h1>
             <div>
                 <div>Autor</div>
             </div>
