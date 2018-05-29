@@ -1,5 +1,7 @@
 import React from 'react';
 import './NewPost.css'
+import { Redirect} from 'react-router-dom';
+import axios from 'axios';
 
 class NewPost extends React.Component {
     state = {
@@ -9,19 +11,45 @@ class NewPost extends React.Component {
         submitted: false
     }
 
+    onCreateHandler = () => {
+        const data = {
+            title: this.state.title,
+            body: this.state.content,
+            author: this.state.author
+        };
+        axios.post('/posts', data)
+            .then(response => console.log(response))
+            .catch(error => console.log(error))
+        this.setState({
+            submitted: true
+        })
+    }
+
+    onChangeHandler = (e) => {
+        let fieldName = e.target.name;
+        this.setState({
+            [fieldName]: e.target.value
+        })
+    }
+
     render() {
+        let redirect = null;
+        if(this.state.submitted) {
+            redirect = <Redirect to="/posts" />
+        }
         return (
             <div className="NewPost">
+                {redirect}
                 <h1>Add a new Post</h1>
                 <label>Title</label>
-                <input type="text" />
+                <input name="title" type="text" value={this.state.title} onChange={this.onChangeHandler}/>
                 <label>Content</label>
-                <textarea rows="4"/>
+                <textarea name="content" rows="4" value={this.state.content} onChange={this.onChangeHandler}/>
                 <label>Author</label>
                 <span>{this.state.author}</span>
                 <br/>
                 <br/>
-                <button>Submit</button>
+                <button onClick={this.onCreateHandler}>Create</button>
             </div>
         );
     }
