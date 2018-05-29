@@ -1,6 +1,6 @@
 import React from 'react';
 import './FullPost.css'
-import {Route} from 'react-router-dom'
+import axios from 'axios';
 
 class FullPost extends React.Component {
     state = {
@@ -20,26 +20,48 @@ class FullPost extends React.Component {
             if (
                 !this.state.loadedPost ||
                 (this.state.loadedPost &&
-                  +this.state.loadedPost !== +this.props.match.params.id)
+                  this.state.loadedPost.id !== +this.props.match.params.id)
               ) {
-                  this.setState({
-                      loadedPost: this.props.match.params.id
-                  })
+                //   this.setState({
+                //       loadedPost: this.props.match.params.id
+                //   })
+
+                axios.get('/posts/' + this.props.match.params.id)
+                    .then(response => {
+                        this.setState({
+                            loadedPost: response.data
+                        })
+                    })
+                    .catch(error => {
+                        console.log(error)
+                    })
               }
         }
    }
-   
+   onDeleteHandler = () => {
+       axios.delete('/posts/' + this.props.match.params.id).then(response => console.log(response))
+   }
 
     render() {
-        return (
-            <div className="FullPost">
-                <h1>{this.state.loadedPost}</h1>
-                <p>body</p>
+        let post;
+        
+        if (this.props.match.params.id) {
+            post = <p style={{ textAlign: "center" }}>Loading...!</p>;
+        }
+
+        if (this.state.loadedPost) {
+            post = (
+                <div className="FullPost">
+                <h1>{this.state.loadedPost.title}</h1>
+                <p>{this.state.loadedPost.body}</p>
                 <div className="Edit">
-                    <button>Delete</button>
+                    <button onClick={this.onDeleteHandler}>Delete</button>
                 </div>
             </div>
-        );
+            )
+        }
+
+        return post
     }
 }
 

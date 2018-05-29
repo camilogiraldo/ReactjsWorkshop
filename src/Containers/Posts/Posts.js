@@ -3,12 +3,31 @@ import Post from '../../Components/Post/Post';
 import './Posts.css'
 import { Route } from 'react-router-dom' 
 import FullPost from '../FullPost/FullPost';
+import axios from 'axios';
 
 class Posts extends React.Component {
-    constructor(props) {
-        super(props);
-        this.state = {};
+
+    state = {
+        posts: []
     }
+
+    componentDidMount = () => {
+        axios.get('/posts')
+            .then(response => {
+                let posts = response.data.slice(0, 4);
+                let updatedPosts = posts.map(post => {
+                    return {
+                        ...post,
+                        author: 'Camilo'
+                    }
+                })
+                this.setState({
+                    posts: updatedPosts
+                })
+            })
+            .catch(error => console.log(error) )
+    }
+    
 
     postClickHandler = id => {
         console.log('clicked')
@@ -16,12 +35,20 @@ class Posts extends React.Component {
     }
 
     render() {
+        let posts = this.state.posts.map(post=> {
+            return (
+                <Post
+                    key={post.id}
+                    title={post.title}
+                    author={post.author}
+                    clicked={() => this.postClickHandler(post.id)}
+                /> 
+            )
+        })
         return (
             <div>
                 <section className="Posts">
-                    <Post title="Post 1" clicked={() => this.postClickHandler(1)}/>
-                    <Post title="Post 2" clicked={() => this.postClickHandler(2)}/>
-                    <Post title="Post 3" clicked={() => this.postClickHandler(3)}/>
+                    {posts}
                 </section>
                 <Route path={this.props.match.url + '/:id'} exact component={FullPost} />
             </div>
